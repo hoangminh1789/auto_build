@@ -1,0 +1,22 @@
+name: Build
+run-name: Build
+on:
+    workflow_dispatch:
+        inputs:
+            profile:
+                description: 'Build Profile'
+                default: 'test'
+                required: true
+                type: choice
+                options:
+                - dev
+                - staging
+                - production
+
+jobs:
+    build:
+        runs-on: [self-hosted]
+        steps:
+            - uses: actions/checkout@v3
+            - name: build
+              run: AutoBuild/build.bat
