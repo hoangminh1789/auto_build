@@ -12,6 +12,10 @@ on:
                 - dev
                 - staging
                 - production
+            version_code:
+                description: Version Code
+                required: true
+                type: string
 
 jobs:
     build:
