@@ -1,0 +1,1 @@
+set UNITY_PATH="C:\Program Files\Unity\Hub\Editor\2022.3.7f1\Editor\Unity.exe"

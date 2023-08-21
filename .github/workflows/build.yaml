@@ -14,6 +14,7 @@ on:
                 - production
             version_code:
                 description: 'Version Code'
+                default: '1'
                 required: true
                 type: string
             branch:
@@ -33,4 +34,4 @@ jobs:
                 clean: false
                 fetch-depth: 0
             - name: build
-              run: AutoBuild/build.bat
+              run: AutoBuild/BuildTool/build.bat -p=${{inputs.profile}} -v=${{inputs.version_code}}
