@@ -18,6 +18,7 @@ on:
                 type: string
             branch:
                 description: 'Branch'
+                default: 'main'
                 required: true
                 type: string
 
@@ -32,4 +33,4 @@ jobs:
                 clean: false
                 fetch-depth: 0
             - name: build
-              run: echo Hello world
+              run: AutoBuild/build.bat
