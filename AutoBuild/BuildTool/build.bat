@@ -1,15 +1,16 @@
-echo off
+rem echo off
 cls
-set project_path=%cd%
-echo Project path: '%project_path%'
+ECHO [[== Load build.bat
+SETLOCAL enableDelayedExpansion
 
-cd AutoBuild/BuildTool
-echo "Starting build"
-echo Current path: '%cd%'
+CALL %~dp0config.bat
 
-call config.bat
 
-echo Unity path: '%UNITY_PATH%'
+SET LOG_PATH=%WORKSPACE%/log.txt
+SET OUTPUT_PATH=%WORKSPACE%/AutoBuild/Test.exe
+
+ECHO PROJECT_PATH: '%PROJECT_PATH%'
+ECHO Unity path: '%UNITY_PATH%'
 
 :loop
 if [%1]==[] goto end_loop
@@ -18,8 +19,8 @@ if [%1]==[-v] goto case_version
 shift & goto loop
 
 :case_profile
-set profile_name=%2
-set profile_path=profiles/%profile_name%.bat
+set profileName=%2
+set profilePath=%BUILD_TOOL%profiles/%profileName%.bat
 shift & goto loop
 
 :case_version
@@ -28,22 +29,36 @@ shift & goto loop
 
 :end_loop
 
-echo Profile: %profile_name%
-echo Version: %version%
+echo Profile: '%profileName%'
+echo Version: '%version%'
+ECHO Profile path: '%profilePath%'
 
-echo Load profile '%profile_path%'
-if exist %profile_path% (
-	call %profile_path%
-	echo Load profile '%profile_path%' is succeed
+if exist %profilePath% (
+	CALL %profilePath% :global_config config
+	ECHO Config: '!config!'
 ) else (
-	echo Load profile '%profile_path%' is failed
-	exit 0
+	ECHO Load profile '%profilePath%' is failed
+	EXIT 0
 )
 
-%UNITY_PATH% \
-		-quit \
-		-batchmode \
-		-projectPath %project_path%
-		-buildTarget Win
+ECHO - Starting building process
 
-echo "Finish build"
+"%UNITY_PATH%" ^
+-quit ^
+-batchmode ^
+-projectPath "%PROJECT_PATH%" ^
+-executeMethod Builder.Execute ^
+-buildTarget Win32 ^
+-logFile "%LOG_PATH%" ^
+-outputPath "%OUTPUT_PATH%" ^
+-versionCode %version% ^
+%config%
+
+ECHO - Finish build
+
+CALL %BUILD_TOOL%utility.bat :validate_file
+CALL %BUILD_TOOL%utility.bat :zip_file
+
+ENDLOCAL
+
+ECHO End of build.bat ==]]
