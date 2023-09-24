@@ -1,4 +1,4 @@
-rem echo off
+ECGHO OFF
 cls
 ECHO [[== Load build.bat
 SETLOCAL enableDelayedExpansion
@@ -16,6 +16,7 @@ ECHO - OUTPUT_DIR: '%OUTPUT_DIR%'
 ECHO - PROJECT_DIR: '%PROJECT_DIR%'
 ECHO - UNITY_PATH: '%UNITY_PATH%'
 ECHO - LOG_PATH: '%LOG_PATH%'
+
 :loop
 if [%1]==[] goto end_loop
 if [%1]==[-p] goto case_profile
