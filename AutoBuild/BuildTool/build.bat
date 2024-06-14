@@ -1,4 +1,4 @@
-ECGHO OFF
+ECHO OFF
 cls
 ECHO [[== Load build.bat
 SETLOCAL enableDelayedExpansion
@@ -66,6 +66,7 @@ ECHO - Finish build
 
 CALL %BUILD_TOOL%utility.bat :validate_file
 CALL %BUILD_TOOL%utility.bat :zip_file
+CALL %BUILD_TOOL%distribute.bat
 
 ENDLOCAL
 
